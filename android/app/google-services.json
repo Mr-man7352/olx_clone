@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "665077414685",
+    "project_id": "olxclonereact-294ec",
+    "storage_bucket": "olxclonereact-294ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665077414685:android:e0ab63662380d4cf5abff4",
+        "android_client_info": {
+          "package_name": "com.olxclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665077414685-hd3uackh60cljk4q4fbirh7qkb5pg13b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYg6FdDealc4I5RYRyCKtHqJqtr-_NoCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665077414685-hd3uackh60cljk4q4fbirh7qkb5pg13b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

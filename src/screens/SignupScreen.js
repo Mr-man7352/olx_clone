@@ -9,10 +9,23 @@ import {
   Alert,
 } from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const userSignup = async () => {
+    if (!email || !password) {
+      Alert.alert('please fill all the fields');
+      return;
+    }
+    try {
+      await auth().createUserWithEmailAndPassword(email, password);
+    } catch (err) {
+      Alert.alert(err.message);
+    }
+  };
 
   return (
     <KeyboardAvoidingView behavior="position">

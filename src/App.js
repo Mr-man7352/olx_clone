@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -27,6 +27,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import AccountScreen from './screens/AccountScreen';
 import Feather from 'react-native-vector-icons/Feather';
+import auth from '@react-native-firebase/auth';
 
 const theme = {
   ...DefaultTheme,
@@ -85,13 +86,13 @@ const TabNavigator = () => {
       }}>
       <Tab.Screen name="Home" component={HomeScreen} options={{title: ''}} />
       <Tab.Screen
-        name="account"
-        component={AccountScreen}
+        name="create"
+        component={CreateAdScreen}
         options={{title: ''}}
       />
       <Tab.Screen
-        name="create"
-        component={CreateAdScreen}
+        name="account"
+        component={AccountScreen}
         options={{title: ''}}
       />
     </Tab.Navigator>
@@ -99,7 +100,16 @@ const TabNavigator = () => {
 };
 
 const Navigation = () => {
-  const user = 'dsf';
+  const [user, setUser] = useState('');
+  useEffect(() => {
+    auth().onAuthStateChanged((userExist) => {
+      if (userExist) {
+        setUser(userExist);
+      } else {
+        setUser('');
+      }
+    });
+  }, []);
   return (
     <NavigationContainer>
       {user ? <TabNavigator /> : <AuthNavigator />}

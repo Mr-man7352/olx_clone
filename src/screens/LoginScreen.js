@@ -10,10 +10,24 @@ import {
 } from 'react-native';
 
 import {TextInput, Button} from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const userLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('please fill all the fields');
+      return;
+    }
+    try {
+      const result = await auth().signInWithEmailAndPassword(email, password);
+      console.log(result.user);
+    } catch (err) {
+      Alert.alert(err.message);
+    }
+  };
 
   return (
     <KeyboardAvoidingView behavior="position">
@@ -39,10 +53,7 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
-        <Button
-          icon="login"
-          mode="contained"
-          onPress={() => console.log('Pressed')}>
+        <Button icon="login" mode="contained" onPress={() => userLogin()}>
           Login
         </Button>
         <TouchableOpacity onPress={() => navigation.navigate('signup')}>
