@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
 
 const ListItemsScreen = () => {
+  const [items, setItems] = useState([]);
   const myitems = [
     {
       name: 'camera',
@@ -22,6 +24,19 @@ const ListItemsScreen = () => {
     },
   ];
 
+  const getDetails = async () => {
+    const querySnap = await firestore().collection('ads').get();
+    const result = querySnap.docs.map((docSnap) => docSnap.data());
+    console.log(result);
+    setItems(result);
+  };
+  useEffect(() => {
+    getDetails();
+    return () => {
+      console.log('cleanup');
+    };
+  }, []);
+
   const renderItem = (item) => {
     return (
       <Card style={styles.container}>
@@ -32,8 +47,8 @@ const ListItemsScreen = () => {
         </Card.Content>
         <Card.Cover source={{uri: item.image}} />
         <Card.Actions>
-          <Button>200</Button>
-          <Button>call seller</Button>
+          <Button>{item.price}</Button>
+          <Button>call Seller</Button>
         </Card.Actions>
       </Card>
     );
@@ -41,7 +56,7 @@ const ListItemsScreen = () => {
   return (
     <View>
       <FlatList
-        data={myitems}
+        data={items}
         keyExtractor={(item) => item.phone}
         renderItem={({item}) => renderItem(item)}
       />

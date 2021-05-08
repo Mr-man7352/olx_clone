@@ -17,7 +17,10 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme as DefaultThemeNav,
+} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -35,6 +38,14 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: 'deepskyblue',
+  },
+};
+
+const Mytheme = {
+  ...DefaultThemeNav,
+  colors: {
+    ...DefaultThemeNav.colors,
+    background: 'white',
   },
 };
 
@@ -102,16 +113,17 @@ const TabNavigator = () => {
 const Navigation = () => {
   const [user, setUser] = useState('');
   useEffect(() => {
-    auth().onAuthStateChanged((userExist) => {
+    const unsubscribe = auth().onAuthStateChanged((userExist) => {
       if (userExist) {
         setUser(userExist);
       } else {
         setUser('');
       }
     });
+    return unsubscribe;
   }, []);
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={Mytheme}>
       {user ? <TabNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
