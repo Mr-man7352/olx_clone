@@ -25,6 +25,8 @@ import CreateAdScreen from './screens/CreateAdScreen';
 import HomeScreen from './screens/ListItemsScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
+import AccountScreen from './screens/AccountScreen';
+import Feather from 'react-native-vector-icons/Feather';
 
 const theme = {
   ...DefaultTheme,
@@ -56,18 +58,51 @@ const AuthNavigator = () => {
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="create" component={CreateAdScreen} />
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color}) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'create') {
+            iconName = 'plus-circle';
+          } else if (route.name === 'account') {
+            iconName = 'user';
+          }
+
+          return (
+            <View
+              style={{borderWidth: 15, borderColor: 'white', borderRadius: 30}}>
+              <Feather name={iconName} size={28} color={color} />
+            </View>
+          );
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'deepskyblue',
+        inactiveTintColor: 'gray',
+      }}>
+      <Tab.Screen name="Home" component={HomeScreen} options={{title: ''}} />
+      <Tab.Screen
+        name="account"
+        component={AccountScreen}
+        options={{title: ''}}
+      />
+      <Tab.Screen
+        name="create"
+        component={CreateAdScreen}
+        options={{title: ''}}
+      />
     </Tab.Navigator>
   );
 };
 
 const Navigation = () => {
+  const user = 'dsf';
   return (
     <NavigationContainer>
-      {/* <TabNavigator /> */}
-      <AuthNavigator />
+      {user ? <TabNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };
