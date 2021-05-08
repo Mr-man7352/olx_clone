@@ -3,12 +3,14 @@ import {
   View,
   Text,
   Image,
-  KeyboardAvoidingView,
   StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,9 +21,8 @@ const LoginScreen = () => {
           style={{width: 200, height: 200}}
           source={require('../assets/login.jpg')}
         />
-        <Text style={styles.text}>Please to continue!</Text>
+        <Text style={styles.text}>Please Signup</Text>
       </View>
-
       <View style={styles.box2}>
         <TextInput
           label="Email"
@@ -36,12 +37,12 @@ const LoginScreen = () => {
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
-        <Button
-          icon="login"
-          mode="contained"
-          onPress={() => console.log('Pressed')}>
-          Login
+        <Button mode="contained" onPress={() => userSignup()}>
+          Signup
         </Button>
+        <TouchableOpacity onPress={() => navigation.navigate('login')}>
+          <Text style={{textAlign: 'center'}}>login?</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );

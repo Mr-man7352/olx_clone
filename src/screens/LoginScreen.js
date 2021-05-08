@@ -3,12 +3,15 @@ import {
   View,
   Text,
   Image,
-  KeyboardAvoidingView,
   StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
+
 import {TextInput, Button} from 'react-native-paper';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -42,6 +45,9 @@ const LoginScreen = () => {
           onPress={() => console.log('Pressed')}>
           Login
         </Button>
+        <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+          <Text style={{textAlign: 'center'}}>Dont have a account ?</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
