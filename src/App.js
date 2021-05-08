@@ -16,8 +16,10 @@ import {
   StatusBar,
 } from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import CreateAdScreen from './screens/CreateAdScreen';
 
 import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
 
 const theme = {
   ...DefaultTheme,
@@ -34,7 +36,9 @@ const App = () => {
       <PaperProvider theme={theme}>
         <StatusBar barStyle="dark-content" backgroundColor="deepskyblue" />
         <View style={styles.container}>
-          <LoginScreen />
+          {/* <LoginScreen /> */}
+          {/* <SignupScreen /> */}
+          <CreateAdScreen />
         </View>
       </PaperProvider>
     </>

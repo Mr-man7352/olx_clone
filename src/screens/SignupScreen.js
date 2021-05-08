@@ -19,7 +19,7 @@ const LoginScreen = () => {
           style={{width: 200, height: 200}}
           source={require('../assets/login.jpg')}
         />
-        <Text style={styles.text}>Please Login to continue!</Text>
+        <Text style={styles.text}>Please to continue!</Text>
       </View>
 
       <View style={styles.box2}>
