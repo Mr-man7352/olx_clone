@@ -3,13 +3,15 @@ import {View, Text, StyleSheet, Alert} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
 const CreateAdScreen = () => {
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [year, setYear] = useState('');
   const [price, setPrice] = useState('');
   const [phone, setPhone] = useState('');
+  const [image, setImage] = useState('');
 
   const postData = async () => {
     if (!name || !desc || !year || !price || !phone) {
@@ -23,8 +25,7 @@ const CreateAdScreen = () => {
         year,
         price,
         phone,
-        image:
-          'https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
+        image,
         uid: auth().currentUser.uid,
       });
       Alert.alert('Posted');
@@ -36,6 +37,36 @@ const CreateAdScreen = () => {
     } catch (err) {
       Alert.alert(err.message);
     }
+  };
+
+  const openCamera = () => {
+    launchImageLibrary({quality: 0.5}, (fileobj) => {
+      //    console.log(fileobj)
+      const uploadTask = storage()
+        .ref()
+        .child(`/items/${Date.now()}`)
+        .putFile(fileobj.uri);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          if (progress == 100) {
+            alert('uploaded');
+          }
+        },
+        (error) => {
+          alert('something went wrong');
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            setImage(downloadURL);
+          });
+        },
+      );
+    });
   };
   return (
     <View style={styles.container}>
@@ -76,14 +107,14 @@ const CreateAdScreen = () => {
         onChangeText={(text) => setPhone(text)}
       />
 
-      <Button
-        icon="camera"
-        mode="contained"
-        onPress={() => console.log('Pressed')}>
+      <Button icon="camera" mode="contained" onPress={() => openCamera()}>
         Upload Image
       </Button>
 
-      <Button mode="contained" onPress={() => postData()}>
+      <Button
+        disabled={image ? false : true}
+        mode="contained"
+        onPress={() => postData()}>
         Post
       </Button>
     </View>

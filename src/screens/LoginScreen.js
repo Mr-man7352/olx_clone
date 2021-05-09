@@ -23,7 +23,6 @@ const LoginScreen = ({navigation}) => {
     }
     try {
       const result = await auth().signInWithEmailAndPassword(email, password);
-      console.log(result.user);
     } catch (err) {
       Alert.alert(err.message);
     }
